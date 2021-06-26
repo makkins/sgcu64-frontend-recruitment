@@ -49,6 +49,37 @@ void drawError(){
     }
 }
 
+void drawTime(string txt){ /* ฟังก์ชั่นวาดเวลาใน matrix ซึ่งจะแทนที่แต่ลำแหน่งเลขแบบ 3x3 */
+    int time[6]={txt[0]-'0', txt[1]-'0', txt[3]-'0', txt[4]-'0', txt[6]-'0', txt[7]-'0'};
+    int i=0,j=0; /*ไว้เป้นตัวชี้ตำแหน่งใน i,j*/
+    int firstJ=j;
+    int rightEdge = 3;  /*ขอบเขตของ column*/
+    int count=0; /* count ไว้นับว่ามีการเขียนเลขไปกี่ตัวแล้ว ซึ่งทุกครั้งที่เขียนครบ2เลข index จะต้องถูก+2 เพิ่มเข้าไปในแนว column */
+    for(int n=0;n<6;n++){
+        for(int k=0;k<9;k++){
+            int state = sevenSegNumber[time[n]][k];
+            if(state==1) matrix[i][j]='|';
+            if(state==2) matrix[i][j]='_';
+            j++;
+            if(j>=rightEdge){
+                j=firstJ;
+                i++;
+            }
+        }
+        /* รวมๆแล้วส่วนล่างนี้ คือการขยับ index ในการเปลี่ยนค่าใน matrix*/
+        i=0;
+        j=j+4;
+        firstJ=j;
+        rightEdge=rightEdge+4;
+        count++;
+        if(count%2==0 && count!=0){
+            j=j+2;
+            rightEdge=rightEdge+2;
+            firstJ=j;
+        }
+    }
+}
+
 bool isValid(string txt){ /* เช็คว่าสามาเขียนเป็นเวลาได้มั้ย*/
     if(txt[3]-'0' > 5 || txt[6]-'0' > 5){
             return false;
@@ -66,5 +97,8 @@ void showTime(){ /*เขียนเวลา*/
 
 int main(){
     init();
+    string txt; cin >> txt;
+    if(isValid(txt)) drawTime(txt);
+    else drawError();
     showTime();
 }
