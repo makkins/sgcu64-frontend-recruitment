@@ -1,5 +1,7 @@
 #include<iostream>
 #include<string>
+#include<sstream>
+#include <iomanip>
 
 using namespace std;
 
@@ -58,6 +60,7 @@ void drawTime(string txt){ /* ฟังก์ชั่นวาดเวลา�
     for(int n=0;n<6;n++){
         for(int k=0;k<9;k++){
             int state = sevenSegNumber[time[n]][k];
+            if(state==0) matrix[i][j]=' ';
             if(state==1) matrix[i][j]='|';
             if(state==2) matrix[i][j]='_';
             j++;
@@ -78,6 +81,30 @@ void drawTime(string txt){ /* ฟังก์ชั่นวาดเวลา�
             firstJ=j;
         }
     }
+}
+
+string reduceTime(string txt){ /
+    /*แปลงเวลาจาก txt เป็นวินาทีก่อน*/
+    int hrs = ((txt[0] - '0') * 10 + (txt[1] - '0'))*3600;
+    int min = ((txt[3] - '0') * 10 + (txt[4] - '0'))*60;
+    int sec = (txt[6] - '0') * 10 + (txt[7] - '0');
+    int sumTime = hrs + min + sec;
+    sumTime = sumTime - 1;
+    min = sumTime / 60;
+    hrs = min / 60;
+    hrs=int(hrs);
+    min = int(min%60);
+    sec = int(sumTime%60);
+
+    /*แปลงเวลากลับเป็น txt*/
+    stringstream sshrs,ssmin,sssec;
+    sshrs << setw(2) << setfill('0') << hrs;
+    ssmin << setw(2) << setfill('0') << min;
+    sssec << setw(2) << setfill('0') << sec;
+    string sh = sshrs.str();
+    string sm = ssmin.str();
+    string ss = sssec.str();
+    return sh+'.'+sm+'.'+ss;
 }
 
 bool isValid(string txt){ /* เช็คว่าสามาเขียนเป็นเวลาได้มั้ย*/
@@ -101,4 +128,16 @@ int main(){
     if(isValid(txt)) drawTime(txt);
     else drawError();
     showTime();
+    cout << "Enter any key to countdown ( except 'q' to exit the program ) : ";
+    char c; cin >> c;
+    string oldTime = txt;
+    while(c!='q'){
+        string newTime = reduceTime(oldTime);
+        cout << newTime <<"\n";
+        drawTime(newTime);
+        showTime();
+        oldTime = newTime;
+        cout << "Enter any key to countdown ( except 'q' to exit the program ) : ";
+        cin >> c;
+    }
 }
