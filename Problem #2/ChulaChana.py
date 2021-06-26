@@ -11,10 +11,7 @@ def welcome_menu():
     if(x==2):
         check_out()
     if(x==3):
-        show_list()
-
-def displaces():
-    pass
+        show_list()    
 
 def check_in():
     print("Enter phone number : ")
@@ -23,12 +20,11 @@ def check_in():
     x = int(input("Please input any number : "))
     while(x>5 or x<1):
         x= int(input("Invalid places number, pls input any number again : "))
-    if number not in user:
-        user[number]=x
-        places[x]+=1
-    else:
-        displaces
-
+    if number in user:
+        places_count[user[number]]-=1
+    user[number]=x
+    places_count[x]+=1
+    print("--------------------------------------------------------------")
 
 def check_out():
     number = input("Enter phone number : ")
@@ -36,20 +32,15 @@ def check_out():
         print("Good bye")
         return
     place_out=user.pop(number)
-    places[place_out]-=1
+    places_count[place_out]-=1
     print("tel:"+number+"checked out")
+    print("--------------------------------------------------------------")
 
 def show_list():
     for i in range (1,6):
-        print(str(i)+". "+places_name[i-1]+": "+places_count[i])
+        print(str(i)+". "+places_name[i-1]+": "+str(places_count[i]))
+    print("--------------------------------------------------------------")
 
-
-
-welcome_menu()
-print("continue the program ? (y/n)")
-c=input()
-while(c=='y'):
-    welcome_menu()
 
 user = {} #key = telNumber , value = places
 places_count={1:0,2:0,3:0,4:0,5:0} # key = places , value = peopleCount
@@ -59,3 +50,9 @@ places_name=["Mahamakut building", "Sara Phra Kaew", "CU Sport Complex", "Sanam 
 # 3:CU Sport Complex,
 # 4:Sanam Juub,
 # 5:Samyan Mitr Town
+
+welcome_menu()
+print("continue the program ? (y/n)")
+c=input()
+while(c=='y'):
+    welcome_menu()
