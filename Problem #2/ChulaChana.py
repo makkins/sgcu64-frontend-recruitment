@@ -13,6 +13,9 @@ def welcome_menu():
     if(x==3):
         show_list()
 
+def displaces():
+    pass
+
 def check_in():
     print("Enter phone number : ")
     number = input()
@@ -25,6 +28,22 @@ def check_in():
         places[x]+=1
     else:
         displaces
+
+
+def check_out():
+    number = input("Enter phone number : ")
+    if number not in user:
+        print("Good bye")
+        return
+    place_out=user.pop(number)
+    places[place_out]-=1
+    print("tel:"+number+"checked out")
+
+def show_list():
+    for i in range (1,6):
+        print(str(i)+". "+places_name[i-1]+": "+places_count[i])
+
+
 
 welcome_menu()
 print("continue the program ? (y/n)")
