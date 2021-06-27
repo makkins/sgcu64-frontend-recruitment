@@ -10,6 +10,15 @@ form.addEventListener("submit", event => {
   }
   console.log(data)
   /* USER CODE Begin: What happened next after recieve form data (Optional) */
-
+  function respond(){
+    var txt;
+    if(confirm("Confirm your information!")){
+      txt="Confirm!";
+    }else{
+      txt="re-check your information";
+    }
+    document.getElementById("register-form").innerHTML = txt;
+  }
+  
   /* USER CODE END: What happened next after recieve form data (Optional) */
 })
